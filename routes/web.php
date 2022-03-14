@@ -39,3 +39,4 @@ Route::get('/product_add', [ProductController::class, 'create']);
 Route::post('/product_add/store', [ProductController::class, 'store']);
 Route::get('/product_type', [ProductController::class, 'type_list']);
 Route::post('/type_add/store', [ProductController::class, 'type_store']);
+Route::delete('/type_delete/{id}', [ProductController::class, 'type_destroy']);
