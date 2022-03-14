@@ -1,6 +1,7 @@
 <html>
     <head>
         <title>應用程式名稱 - @yield('title')</title>
+        <meta name="_token" content="{{csrf_token()}}" />
         <link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}">
         <link rel="stylesheet" href="{{ asset('css/sweetalert2.min.css') }}"></link>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
