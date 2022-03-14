@@ -5,4 +5,5 @@
 @endsection
 
 @section('main')
+    <h1>Hello Harry !!</h1>
 @endsection
