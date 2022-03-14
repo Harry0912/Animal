@@ -22,14 +22,12 @@
                     <a href="#">所有產品</a>
                     <span class="badge bg-primary rounded-pill">14</span>
                 </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <a href="#">狗飼料</a>
-                    <span class="badge bg-primary rounded-pill">2</span>
-                </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <a href="#">貓飼料</a>
-                    <span class="badge bg-primary rounded-pill">1</span>
-                </li>
+                @foreach ($types as $key => $value)
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <a href="#">{{ $value->type_name }}</a>
+                        <span class="badge bg-primary rounded-pill">2</span>
+                    </li>
+                @endforeach
             </ul>
         </div>
     </div>
