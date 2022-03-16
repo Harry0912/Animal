@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\Models\ProductModel;
 use App\Models\TypeModel;
 use App\Http\Requests\ProductRequest;
-use App\Http\Requests\TypeRequest;
 use Intervention\Image\ImageManagerStatic;
 
 class ProductController extends Controller
@@ -17,10 +16,20 @@ class ProductController extends Controller
         $this->TypeModel = $typeModel;
     }
 
-    public function index()
+    public function index($type_id = false)
     {
-        $products = $this->ProductModel->get();
-        $types = $this->TypeModel->where('deleted_at', null)->get();
+        // if ($type_id) {
+        //     $products = $this->ProductModel->where('type_id', $type_id)->paginate(1);
+        // } else {
+        //     $products = $this->ProductModel->paginate(1);
+        // }
+        if ($type_id) {
+            $products = $this->ProductModel->where('type_id', $type_id)->get();
+        } else {
+            $products = $this->ProductModel->get();
+        }
+        
+        $types = $this->TypeModel->get();
 
         return view('product/product_list', [
             'products' => $products,
@@ -28,57 +37,77 @@ class ProductController extends Controller
         ]);
     }
 
+    public function show($id)
+    {
+        $types = $this->TypeModel->get();
+        $product = $this->ProductModel->with('type')->find($id);
+
+        return view('product/product_info', [
+            'types' => $types,
+            'product' => $product
+        ]);
+    }
+
     public function create()
     {
-        return view('product/product_add');
+        $types = $this->TypeModel->get();
+        return view('product/product_add', [
+            'buttonId' => 'productAdd',
+            'buttonName' => '新增',
+            'types' => $types
+        ]);
     }
 
     public function store(ProductRequest $request)
     {
+        $type_id = $request->type_id;
         $title = $request->product_title;
         $intro = $request->product_intro;
         $ingredients = $request->product_ingredients;
         $weight = $request->product_weight;
         $content = $request->product_content;
-        $image = $request->product_image->store('upload/product', 'public');
+        // $image = $request->product_image->store('upload/product', 'public');
 
 
         $this->ProductModel->insert([
+            'type_id' => $type_id,
             'product_title' => $title,
             'product_intro' => $intro,
             'product_ingredients' => $ingredients,
             'product_weight' => $weight,
             'product_content' => $content,
-            'product_image' => $image
+            // 'product_image' => $image
         ]);
     }
 
-    public function type_list()
+    public function edit($id)
     {
-        $types = $this->TypeModel->where('deleted_at', null)->get();
+        $types = $this->TypeModel->get();
+        $product = $this->ProductModel->find($id);
 
-        return view('product/product_type', [
-            'types' => $types
+        return view('/product/product_add', [
+            'buttonId' => 'productEdit',
+            'buttonName' => '儲存',
+            'types' => $types,
+            'product' => $product
         ]);
     }
 
-    public function type_store(TypeRequest $request)
+    public function update(ProductRequest $request, $id)
     {
-        $type_name = $request->type_name;
-        // $type_name_collect = DB::table('producttypes')->get();
+        $product = $this->ProductModel->find($id);
 
-        // $type_name_collect->transform(function($item) {
-        //     dump($item->type_name);
-        // });
-        // exit;
-
-        $this->TypeModel->insert([
-            'type_name' => $type_name
-        ]);
+        $product->type_id = $request->type_id;
+        $product->product_title = $request->product_title;
+        $product->product_intro = $request->product_intro;
+        $product->product_ingredients = $request->product_ingredients;
+        $product->product_weight = $request->product_weight;
+        $product->product_content = $request->product_content;
+        $product->save();
     }
 
-    public function type_destroy($id)
+    public function destroy($id)
     {
-        $this->TypeModel->find($id)->delete();
+        $this->ProductModel->find($id)->delete();
     }
 }

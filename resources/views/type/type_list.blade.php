@@ -1,5 +1,5 @@
 @extends('layouts.main')
-@section('product_type')
+@section('type')
 <div class="container"><div class="row"><a href="/product_list" class="col-1 btn btn-success">回上一頁</a></div></div><br>
 <form action="/type_add/store" method="post">
     @csrf

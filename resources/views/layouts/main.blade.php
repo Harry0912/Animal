@@ -30,7 +30,7 @@
                 <a class="nav-link" href="/contact">聯絡我們</a>
             </li>
         </ul> -->
-        <ul class="nav nav-pills">
+        <ul class="nav nav-pills justify-content-center">
             <li class="nav-item">
                 <a class="nav-link" aria-current="page" href="/">首頁</a>
             </li>
@@ -80,11 +80,12 @@
         </div>
         <br><br>
         @yield('main')
-        @yield('news')
+        @yield('news_list')
         @yield('news_add')
-        @yield('product')
+        @yield('product_list')
         @yield('product_add')
-        @yield('product_type')
+        @yield('product_info')
+        @yield('type')
         <script type="text/javascript" src="{{ asset('js/jquery-3.6.0.min.js') }}"></script>
         <script type="text/javascript" src="{{ asset('js/bootstrap.js') }}"></script>
         <script type="text/javascript" src="{{ asset('js/sweetalert2.min.js') }}"></script>

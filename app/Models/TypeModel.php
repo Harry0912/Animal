@@ -15,4 +15,9 @@ class TypeModel extends Model
     protected $primaryKey = 'type_id';
 
     public $timestamps = false;
+
+    public function products()
+    {
+        return $this->hasMany(ProductModel::class, 'type_id', 'type_id');
+    }
 }

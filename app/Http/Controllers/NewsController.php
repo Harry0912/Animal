@@ -25,7 +25,9 @@ class NewsController extends Controller
     public function create()
     {
         return view('news/news_add', [
-            'action' => '/news_add/store'
+            'action'     => '/news_add/store',
+            'buttonId'   => 'newsAdd',
+            'buttonName' => '新增'
         ]);
     }
 
@@ -35,7 +37,7 @@ class NewsController extends Controller
         $news_content = $request->news_content;
 
         $result = $this->NewsModel->insert([
-            'news_title' => $news_title,
+            'news_title'   => $news_title,
             'news_content' => $news_content
         ]);
     }
@@ -50,16 +52,16 @@ class NewsController extends Controller
         $content = $data['news_content'];
 
         return view('news/news_add', [
-            'action' => '/news_add/update',
-            'news_id' => $id,
-            'news_title' => $title,
+            'buttonId'     => 'newsEdit',
+            'buttonName'   => '儲存',
+            'news_id'      => $id,
+            'news_title'   => $title,
             'news_content' => $content
         ]);
     }
 
-    public function update(NewsRequest $request)
+    public function update(NewsRequest $request, $id)
     {
-        $id = $_POST['news_id'];
         $title = $request->news_title;
         $content = $request->news_content;
 
@@ -68,14 +70,10 @@ class NewsController extends Controller
         $news->news_title = $title;
         $news->news_content = $content;
         $news->save();
-
-        return redirect('/news_list');
     }
 
     public function destroy($id)
     {
-        NewsModel::find($id)->delete();
-
-        return redirect('/news_list');
+        $this->NewsModel->find($id)->delete();
     }
 }

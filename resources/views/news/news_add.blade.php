@@ -17,7 +17,7 @@
         </div><br>
         <input type="hidden" id="news_id" value="{{ $news_id ?? '' }}">
         <div class="row">
-            <div class="col-2"><button id="newsAdd" class="btn btn-primary">儲存</button></div>
+            <div class="col-2"><button id="{{ $buttonId }}" class="btn btn-primary">{{ $buttonName }}</button></div>
         </div>
     </div>
     </form>
