@@ -6,6 +6,7 @@ use Intervention\Image\Facades\Image;
 use App\Http\Controllers\AnimalController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\TypeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,11 +33,15 @@ Route::get('/news_list', [NewsController::class, 'index']);
 Route::get('/news_add', [NewsController::class, 'create']);
 Route::post('/news_add/store', [NewsController::class, 'store']);
 Route::get('/news_edit/{id}', [NewsController::class, 'edit']);
-Route::post('/news_add/update', [NewsController::class, 'update']);
-Route::get('/news_delete/{id}', [NewsController::class, 'destroy']);
-Route::get('/product_list', [ProductController::class, 'index']);
+Route::patch('/news_update/{id}', [NewsController::class, 'update']);
+Route::delete('/news_delete/{id}', [NewsController::class, 'destroy']);
+Route::get('/product_list/{type_id?}', [ProductController::class, 'index']);
+Route::get('/product_info/{id}', [ProductController::class, 'show']);
 Route::get('/product_add', [ProductController::class, 'create']);
 Route::post('/product_add/store', [ProductController::class, 'store']);
-Route::get('/product_type', [ProductController::class, 'type_list']);
-Route::post('/type_add/store', [ProductController::class, 'type_store']);
-Route::delete('/type_delete/{id}', [ProductController::class, 'type_destroy']);
+Route::get('/product_edit/{id}', [ProductController::class, 'edit']);
+Route::patch('/product_update/{id}', [ProductController::class, 'update']);
+Route::delete('/product_delete/{id}', [ProductController::class, 'destroy']);
+Route::get('/type_list', [TypeController::class, 'index']);
+Route::post('/type_add/store', [TypeController::class, 'store']);
+Route::delete('/type_delete/{id}', [TypeController::class, 'destroy']);

@@ -1,6 +1,6 @@
 @extends('layouts.main')
 
-@section('product')
+@section('product_list')
 <div class="container">
     <div class="row">
         @include('product/product_side')
@@ -10,20 +10,21 @@
                     @foreach($products as $key => $value)
                     <div class="col-lg-12 col-xl-6">
                         <div class="card">
-                            <img src="/storage/{{ $value->product_image }}" class="card-img-top" alt="..." width="300" height="300">
+                            <img src="{{ isset($value->product_image) ? '/storage/'.$value->product_image : asset('images/default.png') }}" class="card-img-top" alt="..." width="300" height="300">
                             <div class="card-body">
-                                <h5 class="card-title">{{ $value->product_title }}</h5>
-                                <p class="card-text">{{ $value->product_intro }}</p>
+                                <!-- <h5 class="card-title">{{ $value->product_title }}</h5> -->
+                                <a href="/product_info/{{ $value->product_id }}" class="card-title"><h5>{{ $value->product_title }}</h5></a>
                             </div>
                             <div class="btn-group">
+                                <input type="hidden" name="product_id" value="{{ $value->product_id }}">
                                 <a href="/product_edit/{{ $value->product_id }}" class="btn btn-info col-6"><i class="fa-solid fa-pen-to-square"></i></a>
-                                <a href="/product_edit/{{ $value->product_id }}" class="btn btn-danger col-6"><i class="fa-solid fa-trash-can"></i></i></a>
+                                <button name="productDelete" class="btn btn-danger col-6"><i class="fa-solid fa-trash-can"></i></button>
                             </div>
                         </div>
                     </div>
                     @endforeach
                     <div class="col-12">
-                        <nav aria-label="Page navigation example">
+                        <!-- <nav aria-label="Page navigation example">
                             <ul class="pagination justify-content-center">
                                 <li class="page-item">
                                 <a class="page-link" href="#" aria-label="Previous">
@@ -39,7 +40,7 @@
                                 </a>
                                 </li>
                             </ul>
-                        </nav>
+                        </nav> -->
                     </div>
                 @else
                 <div class="alert alert-primary" style="text-align:center;" role="alert">沒有任何產品</div>
