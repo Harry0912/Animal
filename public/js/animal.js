@@ -143,75 +143,109 @@ $('button[name="typeDelete"]').each(function() {
     });
 });
 
-//產品-新增
-$('#productAdd').click(function(e) {
+//產品-新增、修改
+$('#productForm').on('submit', function(e) {
     e.preventDefault();
-    ajaxSetup();
 
-    let url = '/product_add/store';
-    let type = $('#product_type').val();
-    let title = $('#product_title').val();
-    let intro = $('#product_intro').val();
-    let ingredients = $('#product_ingredients').val();
-    let weight = $('#product_weight').val();
-    let content = $('#product_content').val();
-    // let image = $('#product_image').val();
+    let formData = new FormData($(this)[0]);
+    let url = $(this).attr('action');
+    let msg = "新增成功";
+    if (url.indexOf("update") != -1) msg = "修改完成"
 
     $.ajax({
         url: url,
         method: 'post',
-        data: {
-            type_id : type,
-            product_title : title,
-            product_intro : intro,
-            product_ingredients : ingredients,
-            product_weight : weight,
-            product_content : content,
-            // product_image : image
-        },
+        data: formData,
+        contentType: false,
+        processData: false,
         success: function() {
-            success_alert("新增成功");
+            success_alert(msg);
             setTimeout(function() {
                 location.href = "/product_list";
             }, 1500)
+        },
+        error: function(xhr, status, error){
+            var errorMessage = xhr.status + ': ' + xhr.statusText
+            Swal.fire({
+                title : xhr.responseText,
+                icon : 'error'
+            });
         }
-    })
+    });
 });
+
+//產品-新增
+// $('#productAdd').click(function(e) {
+//     e.preventDefault();
+//     ajaxSetup();
+
+//     let url = '/product_add/store';
+//     let type = $('#product_type').val();
+//     let title = $('#product_title').val();
+//     // let intro = $('#product_intro').val();
+//     let intro = $('input[name="product_intro"]:checked').val();
+//     let ingredients = $('#product_ingredients').val();
+//     let weight = $('#product_weight').val();
+//     let content = $('#product_content').val();
+//     // let image = $('#product_image').val();
+//     console.log(image);
+//     // return false;
+
+//     $.ajax({
+//         url: url,
+//         method: 'post',
+//         data: {
+//             type_id : type,
+//             product_title : title,
+//             product_intro : intro,
+//             product_ingredients : ingredients,
+//             product_weight : weight,
+//             product_content : content,
+//             product_image : image
+//         },
+//         success: function() {
+//             success_alert("新增成功");
+//             setTimeout(function() {
+//                 location.href = "/product_list";
+//             }, 1500)
+//         }
+//     })
+// });
 
 //產品-修改
-$('#productEdit').click(function(e) {
-    e.preventDefault();
-    ajaxSetup();
+// $('#productEdit').click(function(e) {
+//     e.preventDefault();
+//     ajaxSetup();
 
-    let id = $('#product_id').val();
-    let type_id = $('#product_type').val();
-    let title = $('#product_title').val();
-    let intro = $('#product_intro').val();
-    let ingredients = $('#product_ingredients').val();
-    let weight = $('#product_weight').val();
-    let content = $('#product_content').val();
-    let url = '/product_update/'+id;
+//     let id = $('#product_id').val();
+//     let type_id = $('#product_type').val();
+//     let title = $('#product_title').val();
+//     let intro = $('input[name="product_intro"]:checked').val();
+//     let ingredients = $('#product_ingredients').val();
+//     let weight = $('#product_weight').val();
+//     let content = $('#product_content').val();
+//     let url = '/product_update/'+id;
 
-    $.ajax({
-        url: url,
-        method: 'patch',
-        data: {
-            id : id,
-            type_id : type_id,
-            product_title : title,
-            product_intro : intro,
-            product_ingredients : ingredients,
-            product_weight : weight,
-            product_content : content,
-        },
-        success: function() {
-            success_alert("修改完成");
-            setTimeout(function() {
-                location.href = '/product_list';
-            }, 1500)
-        }
-    })
-});
+//     $.ajax({
+//         url: url,
+//         method: 'patch',
+//         data: {
+//             id : id,
+//             type_id : type_id,
+//             product_title : title,
+//             product_intro : intro,
+//             product_ingredients : ingredients,
+//             product_weight : weight,
+//             product_content : content,
+//         },
+//         success: function() {
+//             success_alert("修改完成");
+//             setTimeout(function() {
+//                 location.href = '/product_list';
+//             }, 1500)
+//         }
+//     })
+// });
 
 //產品-刪除
 $('button[name="productDelete"]').each(function() {
@@ -225,8 +259,8 @@ $('button[name="productDelete"]').each(function() {
     });
 });
 
-//產品圖片上傳同步顯示於img中-start
-$('#product_image').change(function(e) {
+//產品圖片上傳同步顯示於img中
+$('input[name="product_image"]').change(function(e) {
     readURL(e.target);
 });
 
@@ -239,4 +273,40 @@ function readURL(input){
         reader.readAsDataURL(input.files[0]);
     }
 }
-//產品圖片上傳同步顯示於img中-end
+
+$('#btnEdit').click(function() {
+    $('#infoList').hide();
+    $('#infoEdit').show();
+});
+
+$('#btnUpdate').click(function() {
+    ajaxSetup();
+
+    let title = $('#title').val();
+    let tel = $('#tel').val();
+    let fax = $('#fax').val();
+    let email = $('#email').val();
+    let address = $('#address').val();
+
+    $.ajax({
+        url: '/update',
+        method: 'post',
+        data: {
+            title : title,
+            tel : tel,
+            fax : fax,
+            email : email,
+            address : address
+        },
+        success: function() {
+            $('#infoList').show();
+            $('#infoEdit').hide();
+            
+            $('#info_title').text(title);
+            $('#info_tel').text(tel);
+            $('#info_fax').text(fax);
+            $('#info_email').text(email);
+            $('#info_address').text(address);
+        }
+    });
+});

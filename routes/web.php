@@ -29,6 +29,7 @@ use App\Http\Controllers\TypeController;
 // });
 
 Route::get('/', [AnimalController::class, 'index']);
+Route::post('/update', [AnimalController::class, 'update']);
 Route::get('/news_list', [NewsController::class, 'index']);
 Route::get('/news_add', [NewsController::class, 'create']);
 Route::post('/news_add/store', [NewsController::class, 'store']);
@@ -40,7 +41,7 @@ Route::get('/product_info/{id}', [ProductController::class, 'show']);
 Route::get('/product_add', [ProductController::class, 'create']);
 Route::post('/product_add/store', [ProductController::class, 'store']);
 Route::get('/product_edit/{id}', [ProductController::class, 'edit']);
-Route::patch('/product_update/{id}', [ProductController::class, 'update']);
+Route::post('/product_update/{id}', [ProductController::class, 'update']);
 Route::delete('/product_delete/{id}', [ProductController::class, 'destroy']);
 Route::get('/type_list', [TypeController::class, 'index']);
 Route::post('/type_add/store', [TypeController::class, 'store']);

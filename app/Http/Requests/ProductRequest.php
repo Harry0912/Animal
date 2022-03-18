@@ -26,11 +26,11 @@ class ProductRequest extends FormRequest
         return [
             'type_id' => 'required',
             'product_title' => 'required',
-            'product_intro' => 'String',
+            'product_intro' => 'required',
             'product_ingredients' => 'String',
             'product_weight' => 'Integer',
             'product_content' => 'String',
-            // 'product_image' => 'mimes:jpeg,jpg,png,gif'
+            'product_image' => 'mimes:jpeg,jpg,png,gif'
         ];
     }
 }

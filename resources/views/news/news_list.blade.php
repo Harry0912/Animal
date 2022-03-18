@@ -25,7 +25,6 @@
                     <div class="accordion accordion-flush" id="accordionFlushExample">
                         @foreach ($news as $key => $value)
                         <div class="row">
-                            <div class="col-1"><input class="form-check-input" type="checkbox" value="{{ $value->news_id }}" id="newsCheckbox"></div>
                             <div class="col-10">
                                 <div class="accordion-item">
                                     <div class="col-12">

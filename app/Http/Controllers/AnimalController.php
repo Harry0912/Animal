@@ -3,9 +3,15 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\AnimalModel;
 
 class AnimalController extends Controller
 {
+    public function __construct(AnimalModel $animalModel)
+    {
+        $this->AnimalModel = $animalModel;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -13,7 +19,10 @@ class AnimalController extends Controller
      */
     public function index()
     {
-        return view('index');
+        $info = $this->AnimalModel->find(1)->first();
+        return view('index', [
+            'info' => $info
+        ]);
     }
 
     /**
@@ -66,9 +75,15 @@ class AnimalController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        $info = $this->AnimalModel->find(1)->first();
+        $info->title = $_POST['title'];
+        $info->tel = $_POST['tel'];
+        $info->fax = $_POST['fax'];
+        $info->email = $_POST['email'];
+        $info->address = $_POST['address'];
+        $info->save();
     }
 
     /**

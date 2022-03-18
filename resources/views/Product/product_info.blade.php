@@ -8,7 +8,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-6 col-ms-6 col-xs-6">
-                        <img src="{{ asset('images/default.png') }}">
+                        <img src="{{ ($product->product_image) ? '/storage/'.$product->product_image : asset('images/default.png') }}" width="400" height="400">
                     </div>
                     <div class="col-md-6 col-ms-6 col-xs-6">
                         <ul class="list-group list-group-flush">
@@ -20,6 +20,7 @@
                             <li class="list-group-item">說明 : {{ $product->product_content }}</li>
                         </ul><br>
                         <a href="/product_list" class="btn btn-success">返回</a>
+                        <div align="right"><i class="fa fa-eye" aria-hidden="true"></i>{{ $product->hits }}</div>
                     </div>
                 </div>
             </div>

@@ -10,7 +10,7 @@
                     @foreach($products as $key => $value)
                     <div class="col-lg-12 col-xl-6">
                         <div class="card">
-                            <img src="{{ isset($value->product_image) ? '/storage/'.$value->product_image : asset('images/default.png') }}" class="card-img-top" alt="..." width="300" height="300">
+                            <a href="/product_info/{{ $value->product_id }}"><img src="{{ isset($value->product_image) ? '/storage/'.$value->product_image : asset('images/default.png') }}" class="card-img-top" alt="..." width="300" height="300"></a>
                             <div class="card-body">
                                 <!-- <h5 class="card-title">{{ $value->product_title }}</h5> -->
                                 <a href="/product_info/{{ $value->product_id }}" class="card-title"><h5>{{ $value->product_title }}</h5></a>
