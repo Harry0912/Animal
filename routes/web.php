@@ -43,6 +43,7 @@ Route::post('/product_add/store', [ProductController::class, 'store']);
 Route::get('/product_edit/{id}', [ProductController::class, 'edit']);
 Route::post('/product_update/{id}', [ProductController::class, 'update']);
 Route::delete('/product_delete/{id}', [ProductController::class, 'destroy']);
+Route::post('/product_search/{keyword}', [ProductController::class, 'search']);
 Route::get('/type_list', [TypeController::class, 'index']);
 Route::post('/type_add/store', [TypeController::class, 'store']);
 Route::delete('/type_delete/{id}', [TypeController::class, 'destroy']);

@@ -63,6 +63,24 @@
         </div>
     </div><br>
     <div class="row">
+        <div class="col-md-2 col-sm-3 col-xs-3 bg-info bgblue">特價開關</div>
+        <div class="col-md-4 col-sm-9 col-xs-9">
+            <div class="form-switch"><input class="form-check-input" type="checkbox" name="on_sale" @if(isset($product) && $product->on_sale=='Y') checked @endif></div>
+        </div>
+    </div><br>
+    <div class="row">
+        <div class="col-md-2 col-sm-3 col-xs-3 bg-info bgblue">價格</div>
+        <div class="col-md-4 col-sm-9 col-xs-9">
+            <input class="form-control" style="border-radius:5px;" type="text" name="product_price" value="{{ $product->product_price ?? '' }}">
+        </div>
+    </div><br>
+    <div class="row">
+        <div class="col-md-2 col-sm-3 col-xs-3 bg-info bgblue">特價</div>
+        <div class="col-md-4 col-sm-9 col-xs-9">
+            <input class="form-control" style="border-radius:5px;" type="text" name="discount_price" value="{{ $product->discount_price ?? '' }}">
+        </div>
+    </div><br>
+    <div class="row">
         <div class="col-md-2 col-sm-3 col-xs-3 bg-info bgblue">圖片</div>
         <input class="col-md-4 col-sm-9 col-xs-9" type="file" name="product_image">
     </div><br>

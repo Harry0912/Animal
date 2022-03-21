@@ -37,9 +37,9 @@ class ProductController extends Controller
         //     $products = $this->ProductModel->paginate(1);
         // }
         if ($type_id) {
-            $products = $this->ProductModel->where('type_id', $type_id)->get();
+            $products = $this->ProductModel->where('type_id', $type_id)->paginate(4);
         } else {
-            $products = $this->ProductModel->get();
+            $products = $this->ProductModel->paginate(4);
         }
         
         //熱門商品(點擊數)排行，取前3筆
@@ -94,6 +94,9 @@ class ProductController extends Controller
         $ingredients = $request->product_ingredients;
         $weight = $request->product_weight;
         $content = $request->product_content;
+        $on_sale = ($request->on_sale) ? 'Y' : 'N';
+        $price = $request->product_price;
+        $discount = $request->discount_price;
         $image = ($request->product_image)?$request->product_image->store('upload/product', 'public'):null;
 
         $this->ProductModel->insert([
@@ -103,6 +106,9 @@ class ProductController extends Controller
             'product_ingredients' => $ingredients,
             'product_weight' => $weight,
             'product_content' => $content,
+            'on_sale' => $on_sale,
+            'product_price' => $price,
+            'discount_price' => $discount,
             'product_image' => $image
         ]);
     }
@@ -132,6 +138,9 @@ class ProductController extends Controller
         $product->product_ingredients = $request->product_ingredients;
         $product->product_weight = $request->product_weight;
         $product->product_content = $request->product_content;
+        $product->on_sale = ($request->on_sale) ? 'Y' : 'N';
+        $product->product_price = $request->product_price;
+        $product->discount_price = $request->discount_price;
         if ($request->product_image) $product->product_image = $request->product_image->store('upload/product', 'public');
         $product->save();
     }
@@ -139,5 +148,22 @@ class ProductController extends Controller
     public function destroy($id)
     {
         $this->ProductModel->find($id)->delete();
+    }
+
+    public function search($keyword)
+    {
+        $products = $this->ProductModel->where('product_title', 'like', '%'.$keyword.'%')->get();
+
+        //熱門商品(點擊數)排行，取前3筆
+        $hits = $this->ProductModel->orderBy('hits', 'desc')->limit(3)->get();
+        
+        $types = $this->types();
+
+        return view('product/product_list', [
+            'products' => $products,
+            'types' => $types[0],
+            'total' => $types[1],
+            'hits' => $hits
+        ]);
     }
 }

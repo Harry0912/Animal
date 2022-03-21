@@ -27,9 +27,12 @@ class ProductRequest extends FormRequest
             'type_id' => 'required',
             'product_title' => 'required',
             'product_intro' => 'required',
-            'product_ingredients' => 'String',
-            'product_weight' => 'Integer',
-            'product_content' => 'String',
+            'product_ingredients' => 'nullable|String',
+            'product_weight' => 'nullable|Integer',
+            'product_content' => 'nullable|String',
+            'on_sale' => '',
+            'product_price' => 'nullable|Integer|required',
+            'discount_price' => 'nullable|Integer',
             'product_image' => 'mimes:jpeg,jpg,png,gif'
         ];
     }

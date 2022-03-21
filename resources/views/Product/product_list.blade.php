@@ -14,6 +14,11 @@
                             <div class="card-body">
                                 <!-- <h5 class="card-title">{{ $value->product_title }}</h5> -->
                                 <a href="/product_info/{{ $value->product_id }}" class="card-title"><h5>{{ $value->product_title }}</h5></a>
+                                @if($value->on_sale == 'Y')
+                                <div><del>${{ $value->product_price }}</del> <span style="color:red">${{ $value->discount_price }}</span></div>
+                                @else
+                                <div><span style="color:red">${{ $value->product_price }}</span></div>
+                                @endif
                             </div>
                             <div class="btn-group">
                                 <input type="hidden" name="product_id" value="{{ $value->product_id }}">
@@ -41,6 +46,7 @@
                                 </li>
                             </ul>
                         </nav> -->
+                        <div>{{$products->links("pagination::bootstrap-4")}}</div>
                     </div>
                 @else
                 <div class="alert alert-primary" style="text-align:center;" role="alert">沒有任何產品</div>

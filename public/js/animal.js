@@ -310,3 +310,20 @@ $('#btnUpdate').click(function() {
         }
     });
 });
+
+$('#product_search').click(function(e) {
+    e.preventDefault();
+    ajaxSetup();
+
+    let keyword = $('#product_keyword').val();
+    let url = '/product_search/' + keyword;
+
+    $.ajax({
+        url: url,
+        method: 'post',
+        data: {keyword : keyword},
+        success: function() {
+            $('#product_keyword').val(keyword);
+        }
+    });
+});
