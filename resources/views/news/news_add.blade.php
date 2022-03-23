@@ -1,6 +1,10 @@
 @extends('layouts.main')
 @section('news_add')
-    <div class="container"><div class="row"><a href="/news_list" class="col-1 btn btn-success">回上一頁</a></div></div><br>
+    <div class="container">
+        <div class="row">
+            <a href="/news_list" class="col-1 btn btn-success"><i class="fa fa-arrow-left" aria-hidden="true"></i> 回上一頁</a>
+        </div>
+    </div><br>
     <form>
     <div class="container">
         <div class="row">

@@ -32,7 +32,7 @@
                                 @endif
                             </li>
                         </ul><br>
-                        <a href="/product_list" class="btn btn-success">返回</a>
+                        <a href="/product_list" class="btn btn-success"><i class="fas fa-arrow-left" aria-hidden="true"></i> 返回</a>
                         <div align="right"><i class="fa fa-eye" aria-hidden="true"></i>{{ $product->hits }}</div>
                     </div>
                 </div>

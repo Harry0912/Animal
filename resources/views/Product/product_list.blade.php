@@ -46,7 +46,6 @@
                                 </li>
                             </ul>
                         </nav> -->
-                        <div>{{$products->links("pagination::bootstrap-4")}}</div>
                     </div>
                 @else
                 <div class="alert alert-primary" style="text-align:center;" role="alert">沒有任何產品</div>

@@ -41,7 +41,7 @@
                 <a class="nav-link" href="/product_list">產品</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link">聯絡我們</a>
+                <a class="nav-link" href="/contact">聯絡我們</a>
             </li>
         </ul>
     </nav>
@@ -78,7 +78,24 @@
                 <span class="visually-hidden">Next</span>
             </button>
         </div>
-        <br><br>
+        <br>
+        @if (isset($breadcrumb))
+        <div style="display: flex; justify-content: center;">
+            <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/">首頁</a></li>
+                    @foreach ($breadcrumb as $key => $value)
+                        @if ($key == count($breadcrumb)-1)
+                            <li class="breadcrumb-item active" aria-current="page">{{ $value['name'] }}</li>
+                        @else
+                            <li class="breadcrumb-item"><a href="{{ $value['active'] }}">{{ $value['name'] }}</a></li>
+                        @endif
+                    @endforeach
+                </ol>
+            </nav>
+        </div><hr>
+        @endif
+        <br>
         @yield('main')
         @yield('news_list')
         @yield('news_add')
@@ -86,6 +103,7 @@
         @yield('product_add')
         @yield('product_info')
         @yield('type')
+        @yield('contact')
         <script type="text/javascript" src="{{ asset('js/jquery-3.6.0.min.js') }}"></script>
         <script type="text/javascript" src="{{ asset('js/bootstrap.js') }}"></script>
         <script type="text/javascript" src="{{ asset('js/sweetalert2.min.js') }}"></script>

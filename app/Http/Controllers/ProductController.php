@@ -31,15 +31,25 @@ class ProductController extends Controller
 
     public function index($type_id = false)
     {
-        // if ($type_id) {
-        //     $products = $this->ProductModel->where('type_id', $type_id)->paginate(1);
-        // } else {
-        //     $products = $this->ProductModel->paginate(1);
-        // }
         if ($type_id) {
-            $products = $this->ProductModel->where('type_id', $type_id)->paginate(4);
+            $products = $this->ProductModel->where('type_id', $type_id)->get();
+            $type = $this->TypeModel->where('type_id', $type_id)->first();
+
+            $breadcrumb[] = [
+                'name' => '產品',
+                'active' => '/product_list'
+            ];
+            $breadcrumb[] = [
+                'name' => $type->type_name,
+                'active' => 'active'
+            ];
         } else {
-            $products = $this->ProductModel->paginate(4);
+            $products = $this->ProductModel->get();
+
+            $breadcrumb[] = [
+                'name' => '產品',
+                'active' => 'active'
+            ];
         }
         
         //熱門商品(點擊數)排行，取前3筆
@@ -51,7 +61,8 @@ class ProductController extends Controller
             'products' => $products,
             'types' => $types[0],
             'total' => $types[1],
-            'hits' => $hits
+            'hits' => $hits,
+            'breadcrumb' => $breadcrumb
         ]);
     }
 
@@ -67,22 +78,47 @@ class ProductController extends Controller
         //熱門商品(點擊數)排行，取前3筆
         $hits = $this->ProductModel->orderBy('hits', 'desc')->limit(3)->get();
 
+        $breadcrumb[] = [
+            'name' => '產品',
+            'active' => '/product_list'
+        ];
+        $breadcrumb[] = [
+            'name' => $product->type->type_name,
+            'active' => '/product_list/'.$product->type->type_id
+        ];
+        $breadcrumb[] = [
+            'name' => $product->product_title,
+            'active' => 'active'
+        ];
+
         return view('product/product_info', [
             'product' => $product,
             'types' => $types[0],
             'total' => $types[1],
-            'hits' => $hits
+            'hits' => $hits,
+            'breadcrumb' => $breadcrumb
         ]);
     }
 
     public function create()
     {
         $types = $this->types();
+
+        $breadcrumb[] = [
+            'name' => '產品',
+            'active' => '/product_list'
+        ];
+        $breadcrumb[] = [
+            'name' => '新增',
+            'active' => 'active'
+        ];
+
         return view('product/product_add', [
             'action' => '/product_add/store',
             'buttonId' => 'productAdd',
             'buttonName' => '新增',
-            'types' => collect($types[0])
+            'types' => collect($types[0]),
+            'breadcrumb' => $breadcrumb
         ]);
     }
 
@@ -118,13 +154,23 @@ class ProductController extends Controller
         $types = $this->types();
         $product = $this->ProductModel->find($id);
 
+        $breadcrumb[] = [
+            'name' => '產品',
+            'active' => '/product_list'
+        ];
+        $breadcrumb[] = [
+            'name' => $product->product_title,
+            'active' => 'active'
+        ];
+
         return view('/product/product_add', [
             'action' => '/product_update/'.$id,
             'buttonId' => 'productEdit',
             'buttonName' => '儲存',
             'product' => $product,
             'types' => $types[0],
-            'total' => $types[1]
+            'total' => $types[1],
+            'breadcrumb' => $breadcrumb
         ]);
     }
 

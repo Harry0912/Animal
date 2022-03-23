@@ -1,6 +1,10 @@
 @extends('layouts.main')
 @section('product_add')
-<div class="container"><div class="row"><a href="/product_list" class="col-1 btn btn-success">回上一頁</a></div></div><br>
+<div class="container">
+    <div class="row">
+        <a href="/product_list" class="col-1 btn btn-success"><i class="fa fa-arrow-left" aria-hidden="true"></i> 回上一頁</a>
+    </div>
+</div><br>
 <form action="{{ $action }}" id="productForm" method="post" enctype="multipart/form-data">
 @csrf
 <div class="container">
@@ -54,6 +58,7 @@
         <div class="col-md-4 col-sm-9 col-xs-9">
             <input class="form-control" style="border-radius:5px;" type="text" name="product_weight" value="{{ $product->product_weight ?? '' }}">
         </div>
+        <span class="col-md-4 col-sm-9 col-xs-9" style="color:red;">***重量單位為"克"</span>
     </div><br>
     <div class="row">
         <div class="col-md-2 col-sm-3 col-xs-3 bg-info bgblue">說明</div>
@@ -89,7 +94,7 @@
     </div><br>
     <input type="hidden" id="product_id" name="product_id" value="{{ $product->product_id ?? '' }}">
     <div class="row">
-        <div class="col-2"><button type="submit" id="{{ $buttonId }}" class="btn btn-primary">{{ $buttonName }}</button></div>
+        <div class="col-2"><button type="submit" id="{{ $buttonId }}" class="btn btn-primary"><i class="fa fa-plus" aria-hidden="true"></i> {{ $buttonName }}</button></div>
     </div>
 </div>
 </form>
