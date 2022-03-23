@@ -17,8 +17,18 @@ class TypeController extends Controller
     {
         $types = $this->TypeModel->get();
 
+        $breadcrumbp[] = [
+            'name' => '產品',
+            'active' => '/product_list'
+        ];
+        $breadcrumbp[] = [
+            'name' => '產品分類',
+            'active' => 'active'
+        ];
+
         return view('type/type_list', [
-            'types' => $types
+            'types' => $types,
+            'breadcrumb' => $breadcrumbp
         ]);
     }
 

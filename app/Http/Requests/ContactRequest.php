@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class NewsRequest extends FormRequest
+class ContactRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,21 +24,21 @@ class NewsRequest extends FormRequest
     public function rules()
     {
         return [
-            'news_title' => 'required',
-            'news_content' => 'required'
+            'name' => 'required',
+            'tel' => 'required',
+            'email' => 'required|email',
+            'notes' => 'required'
         ];
     }
 
-    /**
-     * Get the error messages for the defined validation rules.
-     *
-     * @return array
-     */
     public function messages()
     {
         return [
-            'news_title.required' => '標題欄位必填',
-            'news_content.required' => '內容欄位必填'
+            'name.required' => '填表人欄位必填',
+            'tel.required' => '電話欄位必填',
+            'email.required' => 'E-mail欄位必填',
+            'email.email' => 'E-mail格式不正確',
+            'notes.required' => '留言內容欄位必填'
         ];
     }
 }

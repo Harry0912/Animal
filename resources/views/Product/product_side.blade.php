@@ -1,17 +1,24 @@
 <div class="col-xl-4 col-lg-5">
     <div class="row">
-        <div class="col-4"><a href="/type_list" class="btn btn-outline-info">產品分類</a></div>
-        <div class="col-4"><a href="/product_add" class="btn btn-outline-primary">新增</a></div>
-        <div class="col-4"><a href="#" class="btn btn-outline-danger">刪除</a></div>
+        <div class="col-md-4">
+            <a href="/type_list" class="btn btn-outline-info"><i class="fa fa-window-restore" aria-hidden="true"></i> 產品分類</a>
+        </div>
+        <div class="col-md-4">
+            <a href="/product_add" class="btn btn-outline-primary"><i class="fa fa-plus" aria-hidden="true"></i> 新增</a>
+        </div>
+        <!-- <div class="col-4"><a href="#" class="btn btn-outline-danger">刪除</a></div> -->
     </div><br>
     <div class="row">
-        <div class="col-9">
-            <form class="d-flex">
-                <input class="form-control me-2" type="search" id="product_keyword" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success" id="product_search">Search</button>
-            </form>
-        </div>
-        <div class="col-3"><a class="btn btn-primary" href="/product_add">新增</a></div>
+        <form class="d-flex">
+            <div class="col-md-6 me-2">
+                <input class="form-control" type="search" id="product_keyword" placeholder="Search" aria-label="Search">
+            </div>
+            <div class="col-md-3">
+                <button type="submit" class="btn btn-outline-success" id="product_search">
+                    <i class="fa fa-search" aria-hidden="true"></i> 搜尋
+                </button>
+            </div>
+        </form>
     </div>
     <div class="row">
         <ul class="list-group">

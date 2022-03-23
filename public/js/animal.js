@@ -36,6 +36,20 @@ function warning_alert(msg, url, id, returnUrl) {
     })
 }
 
+function errorMessage(msg)
+{
+    let errMsg = JSON.parse(msg.responseText)['errors'];
+    let message = '';
+    $.each(errMsg, function(index, value) {
+        message += value+'<br>';
+    });
+
+    Swal.fire({
+        title : message,
+        icon : 'error'
+    });
+}
+
 //csrf
 function ajaxSetup() {
     $.ajaxSetup({
@@ -66,6 +80,9 @@ $('#newsAdd').click(function(e) {
             setTimeout(function() {
                 location.href = "/news_list"
             }, 1500);
+        },
+        error: function(msg) {
+            errorMessage(msg);
         }
     });
 });
@@ -105,6 +122,29 @@ $('button[name="newsDelete"]').each(function() {
         let url = '/news_delete/'+id;
 
         warning_alert("確定要刪除此筆消息?", url, id, "/news_list");
+    });
+});
+
+$('#news_search').click(function(e) {
+    e.preventDefault();
+    ajaxSetup();
+
+    let keyword = $('#news_keyword').val().trim();
+    let url = '/news_list';
+    let method = 'get';
+    if (keyword != '') {
+        url = '/news_search/'+keyword;
+        method = 'post';
+    }
+
+    $.ajax({
+        url: url,
+        type: method,
+        data: {keyword : keyword},
+        success: function(data) {
+            $('body').html(data);
+            if (keyword != '') $('#news_keyword').val(keyword);
+        }
     });
 });
 
@@ -164,12 +204,8 @@ $('#productForm').on('submit', function(e) {
                 location.href = "/product_list";
             }, 1500)
         },
-        error: function(xhr, status, error){
-            var errorMessage = xhr.status + ': ' + xhr.statusText
-            Swal.fire({
-                title : xhr.responseText,
-                icon : 'error'
-            });
+        error: function(msg){
+            errorMessage(msg);
         }
     });
 });
@@ -315,15 +351,46 @@ $('#product_search').click(function(e) {
     e.preventDefault();
     ajaxSetup();
 
-    let keyword = $('#product_keyword').val();
-    let url = '/product_search/' + keyword;
+    let keyword = $('#product_keyword').val().trim();
+    let url = '/product_list';
+    let method = 'get';
+    if (keyword != '') {
+        url = '/product_search/' + keyword;
+        method = 'post';
+    } 
+
+    $.ajax({
+        url: url,
+        method: method,
+        data: {keyword : keyword},
+        success: function(data) {
+            $('body').html(data);
+            if (keyword != '') $('#product_keyword').val(keyword);
+        }
+    });
+});
+
+$('#contactForm').on('submit', function(e) {
+    e.preventDefault();
+    ajaxSetup();
+
+    let formData = new FormData($(this)[0]);
+    let url = $(this).attr('action');
 
     $.ajax({
         url: url,
         method: 'post',
-        data: {keyword : keyword},
+        data: formData,
+        contentType: false,
+        processData: false,
         success: function() {
-            $('#product_keyword').val(keyword);
+            success_alert('信件寄出成功!!');
+            setTimeout(function() {
+                location.href = '/contact';
+            }, 1500);
+        },
+        error: function(msg){
+            errorMessage(msg);
         }
-    });
+    })
 });

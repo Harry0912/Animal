@@ -15,19 +15,35 @@ class NewsController extends Controller
 
     public function index()
     {
-        $result = $this->NewsModel->get();
+        $news = $this->NewsModel->get();
+        
+        $breadcrumb[] = [
+            'name' => '最新消息',
+            'active' => 'active'
+        ];
 
         return view('news/news_list',[
-            'news' => $result
+            'news' => $news,
+            'breadcrumb' => $breadcrumb
         ]);
     }
 
     public function create()
     {
+        $breadcrumb[] = [
+            'name' => '最新消息',
+            'active' => '/news_list'
+        ];
+        $breadcrumb[] = [
+            'name' => '新增',
+            'active' => 'active'
+        ];
+        
         return view('news/news_add', [
             'action'     => '/news_add/store',
             'buttonId'   => 'newsAdd',
-            'buttonName' => '新增'
+            'buttonName' => '新增',
+            'breadcrumb' => $breadcrumb
         ]);
     }
 
@@ -51,12 +67,22 @@ class NewsController extends Controller
         $title = $data['news_title'];
         $content = $data['news_content'];
 
+        $breadcrumb[] = [
+            'name' => '最新消息',
+            'active' => '/news_list'
+        ];
+        $breadcrumb[] = [
+            'name' => $title,
+            'active' => 'active'
+        ];
+
         return view('news/news_add', [
             'buttonId'     => 'newsEdit',
             'buttonName'   => '儲存',
             'news_id'      => $id,
             'news_title'   => $title,
-            'news_content' => $content
+            'news_content' => $content,
+            'breadcrumb' => $breadcrumb
         ]);
     }
 
@@ -75,5 +101,14 @@ class NewsController extends Controller
     public function destroy($id)
     {
         $this->NewsModel->find($id)->delete();
+    }
+
+    public function search($keyword)
+    {
+        $news = $this->NewsModel->where('news_title', 'like', '%'.$keyword.'%')->get();
+
+        return view('news/news_list', [
+            'news' => $news
+        ]);
     }
 }

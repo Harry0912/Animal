@@ -7,6 +7,7 @@ use App\Http\Controllers\AnimalController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\TypeController;
+use App\Http\Controllers\ContactController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,14 +29,18 @@ use App\Http\Controllers\TypeController;
 //     return $img->response('jpg');
 // });
 
+//首頁
 Route::get('/', [AnimalController::class, 'index']);
 Route::post('/update', [AnimalController::class, 'update']);
+//最新消息
 Route::get('/news_list', [NewsController::class, 'index']);
 Route::get('/news_add', [NewsController::class, 'create']);
 Route::post('/news_add/store', [NewsController::class, 'store']);
 Route::get('/news_edit/{id}', [NewsController::class, 'edit']);
 Route::patch('/news_update/{id}', [NewsController::class, 'update']);
 Route::delete('/news_delete/{id}', [NewsController::class, 'destroy']);
+Route::post('/news_search/{keyword}', [NewsController::class, 'search']);
+//產品
 Route::get('/product_list/{type_id?}', [ProductController::class, 'index']);
 Route::get('/product_info/{id}', [ProductController::class, 'show']);
 Route::get('/product_add', [ProductController::class, 'create']);
@@ -44,6 +49,13 @@ Route::get('/product_edit/{id}', [ProductController::class, 'edit']);
 Route::post('/product_update/{id}', [ProductController::class, 'update']);
 Route::delete('/product_delete/{id}', [ProductController::class, 'destroy']);
 Route::post('/product_search/{keyword}', [ProductController::class, 'search']);
+//分類
 Route::get('/type_list', [TypeController::class, 'index']);
 Route::post('/type_add/store', [TypeController::class, 'store']);
 Route::delete('/type_delete/{id}', [TypeController::class, 'destroy']);
+//聯絡我們
+Route::get('/contact', [ContactController::class, 'index']);
+Route::post('/contact/send', [ContactController::class, 'send']);
+Route::post('/contact_add', [ContactController::class, 'store']);
+
+Route::get('/captcha', [ContactController::class, 'captcha']);
