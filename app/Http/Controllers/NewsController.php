@@ -40,8 +40,8 @@ class NewsController extends Controller
         ];
         
         return view('news/news_add', [
-            'action'     => '/news_add/store',
-            'buttonId'   => 'newsAdd',
+            'action' => '/news_add/store',
+            'buttonId' => 'newsAdd',
             'buttonName' => '新增',
             'breadcrumb' => $breadcrumb
         ]);
@@ -49,12 +49,10 @@ class NewsController extends Controller
 
     public function store(NewsRequest $request)
     {
-        $news_title = $request->news_title;
-        $news_content = $request->news_content;
-
         $result = $this->NewsModel->insert([
-            'news_title'   => $news_title,
-            'news_content' => $news_content
+            'news_title' => $request->news_title,
+            'news_time' => $request->news_time,
+            'news_content' => $request->news_content
         ]);
     }
 
@@ -65,6 +63,7 @@ class NewsController extends Controller
             ->first();
 
         $title = $data['news_title'];
+        $time = $data['news_time'];
         $content = $data['news_content'];
 
         $breadcrumb[] = [
@@ -77,10 +76,11 @@ class NewsController extends Controller
         ];
 
         return view('news/news_add', [
-            'buttonId'     => 'newsEdit',
-            'buttonName'   => '儲存',
-            'news_id'      => $id,
-            'news_title'   => $title,
+            'buttonId' => 'newsEdit',
+            'buttonName' => '儲存',
+            'news_id' => $id,
+            'news_title' => $title,
+            'news_time' => $time,
             'news_content' => $content,
             'breadcrumb' => $breadcrumb
         ]);
@@ -88,13 +88,11 @@ class NewsController extends Controller
 
     public function update(NewsRequest $request, $id)
     {
-        $title = $request->news_title;
-        $content = $request->news_content;
-
         $news = NewsModel::find($id);
 
-        $news->news_title = $title;
-        $news->news_content = $content;
+        $news->news_title = $request->news_title;
+        $news->news_time = $request->news_time;
+        $news->news_content = $request->news_content;
         $news->save();
     }
 

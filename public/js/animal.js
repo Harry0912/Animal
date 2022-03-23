@@ -65,15 +65,17 @@ $('#newsAdd').click(function(e) {
     ajaxSetup();
 
     let url = '/news_add/store';
-    let news_title = $('#news_title').val();
-    let news_content = $('#news_content').val();
+    let title = $('#news_title').val();
+    let time = $('#news_time').val();
+    let content = $('#news_content').val();
 
     $.ajax({
         url: url,
         method: 'post',
         data: {
-            news_title:news_title, 
-            news_content:news_content
+            news_title : title, 
+            news_time : time,
+            news_content : content
         },
         success: function() {
             success_alert("新增成功");
@@ -94,6 +96,7 @@ $('#newsEdit').click(function(e) {
     
     let id = $('#news_id').val();
     let title = $('#news_title').val();
+    let time= $('#news_time').val();
     let content = $('#news_content').val();
     let url = '/news_update/'+id;
 
@@ -102,6 +105,7 @@ $('#newsEdit').click(function(e) {
         method: 'patch',
         data: {
             news_title : title,
+            news_time : time,
             news_content : content
         },
         success: function() {

@@ -45,13 +45,6 @@
             </li>
         </ul>
     </nav>
-
-        <!-- <div class="input-group">
-            <a class="btn btn-outline-primary col-md-3" href="/">首頁</a>
-            <a class="btn btn-outline-primary col-md-3" href="/news_list">最新消息</a>
-            <a class="btn btn-outline-primary col-md-3" href="/product_list">產品</a>
-            <a class="btn btn-outline-primary col-md-3" href="/contact">聯絡我們</a>
-        </div> -->
         <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-indicators">
                 <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>

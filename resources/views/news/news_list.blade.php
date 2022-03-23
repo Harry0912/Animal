@@ -6,8 +6,8 @@
         <div class="col-xl-4 col-lg-5">
             <div class="row">
                 <div class="col-4"><a class="btn btn-primary" href="/news_add"><i class="fa-solid fa-plus"></i>新增</a></div>
-                <div class="col-4"><a class="btn btn-info" href="/news_add"><i class="fa-solid fa-pen-to-square"></i>編輯</a></div>
-                <div class="col-4"><a class="btn btn-danger" href="/news_add"><i class="fa-solid fa-trash-can"></i>刪除</a></div>
+                <!-- <div class="col-4"><a class="btn btn-info" href="/news_add"><i class="fa-solid fa-pen-to-square"></i>編輯</a></div> -->
+                <!-- <div class="col-4"><a class="btn btn-danger" href="/news_add"><i class="fa-solid fa-trash-can"></i>刪除</a></div> -->
             </div><br>
             <div class="row">
                 <form class="d-flex">
@@ -38,8 +38,9 @@
                                         </h2>
                                         <div id="flush-collapse{{ $key }}" class="accordion-collapse collapse" aria-labelledby="flush-heading{{ $key }}" data-bs-parent="#accordionFlushExample">
                                             <div class="accordion-body">
-                                                <strong>{{ $value['news_content'] }}</strong>
-                                            </div>
+                                                <p>發布日期 : {{ $value->news_time }}</p>
+                                                內容 : <strong>{{ $value['news_content'] }}</strong>
+                                            </div><hr>
                                         </div>
                                     </div>
                                 </div>

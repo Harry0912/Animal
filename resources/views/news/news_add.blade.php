@@ -14,6 +14,12 @@
             </div>
         </div><br>
         <div class="row">
+            <div class="col-md-2 col-sm-3 col-xs-3 bg-info bgblue">發布日期</div>
+            <div class="col-md-4 col-sm-9 col-xs-9">
+                <input class="form-control" style="border-redius:5px;" type="date" id="news_time" value="{{ $news_time ?? '' }}">
+            </div>
+        </div><br>
+        <div class="row">
             <div class="col-md-2 col-sm-3 col-xs-3 bg-info bgblue">內容</div>
             <div class="col-md-4 col-sm-9 col-xs-9">
                 <input class="form-control" style="border-redius:5px;" type="text" id="news_content" value="{{ $news_content ?? '' }}">
