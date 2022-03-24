@@ -94,7 +94,16 @@
     </div><br>
     <input type="hidden" id="product_id" name="product_id" value="{{ $product->product_id ?? '' }}">
     <div class="row">
-        <div class="col-2"><button type="submit" id="{{ $buttonId }}" class="btn btn-primary"><i class="fa fa-plus" aria-hidden="true"></i> {{ $buttonName }}</button></div>
+        <div class="col-2">
+            <button type="submit" id="{{ $buttonId }}" class="btn btn-primary">
+                @if ($buttonName == '新增')
+                    <i class="fa-solid fa-plus"></i>
+                @else
+                    <i class="fa-regular fa-floppy-disk"></i> 
+                @endif
+                {{ $buttonName }}
+            </button>
+        </div>
     </div>
 </div>
 </form>

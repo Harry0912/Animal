@@ -15,7 +15,8 @@ class NewsController extends Controller
 
     public function index()
     {
-        $news = $this->NewsModel->get();
+        // $news = $this->NewsModel->get();
+        $news = $this->NewsModel->paginate(4);
         
         $breadcrumb[] = [
             'name' => '最新消息',
@@ -103,7 +104,7 @@ class NewsController extends Controller
 
     public function search($keyword)
     {
-        $news = $this->NewsModel->where('news_title', 'like', '%'.$keyword.'%')->get();
+        $news = $this->NewsModel->where('news_title', 'like', '%'.$keyword.'%')->paginate(4);
 
         return view('news/news_list', [
             'news' => $news

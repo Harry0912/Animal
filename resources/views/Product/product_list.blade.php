@@ -22,13 +22,15 @@
                             </div>
                             <div class="btn-group">
                                 <input type="hidden" name="product_id" value="{{ $value->product_id }}">
+                                <input type="hidden" name="product_title" value="{{ $value->product_title }}">
                                 <a href="/product_edit/{{ $value->product_id }}" class="btn btn-info col-6"><i class="fa-solid fa-pen-to-square"></i></a>
                                 <button name="productDelete" class="btn btn-danger col-6"><i class="fa-solid fa-trash-can"></i></button>
                             </div>
                         </div>
                     </div>
                     @endforeach
-                    <div class="col-12">
+                    <div class="col-12" style="display: flex; justify-content: center; padding: 12px;">
+                        {{$products->links("pagination::bootstrap-4")}}
                         <!-- <nav aria-label="Page navigation example">
                             <ul class="pagination justify-content-center">
                                 <li class="page-item">

@@ -26,7 +26,7 @@
                 </div><br>
             @endforeach
             <div class="row">
-                <button id="typeEdit" class="col-1 btn btn-primary"><i class="fa fa-plus" aria-hidden="true"></i> 儲存</button>
+                <button id="typeEdit" class="col-1 btn btn-primary"><i class="fa-regular fa-floppy-disk"></i> 儲存</button>
             </div>
         </form>
     @else

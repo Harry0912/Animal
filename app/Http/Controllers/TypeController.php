@@ -41,6 +41,18 @@ class TypeController extends Controller
         ]);
     }
 
+    public function update()
+    {
+        $type_id_array = $_POST['type_id_array'];
+        $type_name_array = $_POST['type_name_array'];
+
+        foreach ($type_id_array as $key => $value) {
+            $type = $this->TypeModel->find($type_id_array[$key]);
+            $type->type_name = $type_name_array[$key];
+            $type->save();
+        }
+    }
+
     public function destroy($id)
     {
         $this->TypeModel->find($id)->delete();

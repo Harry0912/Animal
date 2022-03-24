@@ -16,7 +16,7 @@
                 <p><i class="fa fa-fax" aria-hidden="true"></i> : <span id="info_fax">{{ $info->fax }}</span></p>
                 <p><i class="fa fa-envelope" aria-hidden="true"></i> : <span id="info_email">{{ $info->email }}</span></p>
                 <p><i class="fa fa-map-marker" aria-hidden="true"></i> : <span id="info_address">{{ $info->address }}</span></p>
-                <button class="btn btn-primary" id="btnEdit">編輯</button>
+                <button class="btn btn-primary" id="btnEdit"><i class="fa-solid fa-pen-to-square"></i> 編輯</button>
             </div>
         </div>
 
@@ -30,7 +30,7 @@
                 <p><i class="fa fa-fax" aria-hidden="true"></i> : <input type="text" id="fax" value="{{ $info->fax }}"></p>
                 <p><i class="fa fa-envelope" aria-hidden="true"></i> : <input type="text" id="email" value="{{ $info->email }}"></p>
                 <p><i class="fa fa-map-marker" aria-hidden="true"></i> : <input type="text" id="address" value="{{ $info->address }}"></p>
-                <button class="btn btn-primary" id="btnUpdate">變更</button>
+                <button class="btn btn-primary" id="btnUpdate"><i class="fa-regular fa-floppy-disk"></i> 儲存</button>
             </div>
         </div>
     </div>

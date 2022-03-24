@@ -52,6 +52,7 @@ Route::post('/product_search/{keyword}', [ProductController::class, 'search']);
 //分類
 Route::get('/type_list', [TypeController::class, 'index']);
 Route::post('/type_add/store', [TypeController::class, 'store']);
+Route::post('/type_update', [TypeController::class, 'update']);
 Route::delete('/type_delete/{id}', [TypeController::class, 'destroy']);
 //聯絡我們
 Route::get('/contact', [ContactController::class, 'index']);

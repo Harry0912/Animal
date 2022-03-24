@@ -32,7 +32,7 @@ class ProductController extends Controller
     public function index($type_id = false)
     {
         if ($type_id) {
-            $products = $this->ProductModel->where('type_id', $type_id)->get();
+            $products = $this->ProductModel->where('type_id', $type_id)->paginate(4);
             $type = $this->TypeModel->where('type_id', $type_id)->first();
 
             $breadcrumb[] = [
@@ -44,7 +44,7 @@ class ProductController extends Controller
                 'active' => 'active'
             ];
         } else {
-            $products = $this->ProductModel->get();
+            $products = $this->ProductModel->paginate(4);
 
             $breadcrumb[] = [
                 'name' => '產品',
@@ -198,7 +198,7 @@ class ProductController extends Controller
 
     public function search($keyword)
     {
-        $products = $this->ProductModel->where('product_title', 'like', '%'.$keyword.'%')->get();
+        $products = $this->ProductModel->where('product_title', 'like', '%'.$keyword.'%')->paginate(4);
 
         //熱門商品(點擊數)排行，取前3筆
         $hits = $this->ProductModel->orderBy('hits', 'desc')->limit(3)->get();

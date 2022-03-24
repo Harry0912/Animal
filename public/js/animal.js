@@ -2,8 +2,7 @@
 function success_alert(msg) {
     Swal.fire({
         title : msg,
-        icon : 'success',
-        timer : 1500
+        icon : 'success'
     });
 }
 
@@ -123,9 +122,10 @@ $('button[name="newsDelete"]').each(function() {
         ajaxSetup();
 
         let id = $(this).parent().parent().find('input[name="news_id"]').val();
+        let title = $(this).parent().parent().find('input[name="news_title"]').val();
         let url = '/news_delete/'+id;
 
-        warning_alert("確定要刪除此筆消息?", url, id, "/news_list");
+        warning_alert('確定要刪除"'+title+'"消息?', url, id, "/news_list");
     });
 });
 
@@ -173,6 +173,50 @@ $('#typeAdd').click(function(e) {
     });
 });
 
+$('#typeEdit').click(function(e) {
+    e.preventDefault();
+    ajaxSetup();
+
+    let type_id_array = [];
+    $('input[name="type_id"]').each(function() {
+        type_id_array.push($(this).val());
+    });
+
+    let isError = false;
+    let type_name_array = [];
+    $('input[name="type_name"]').each(function() {
+        let type_name = $(this).val().trim();
+        if (type_name == '') {
+            isError = true;
+            return false;
+        }
+        type_name_array.push(type_name);
+    });
+
+    if (!isError) {
+        $.ajax({
+            url: '/type_update',
+            method: 'post',
+            data: {type_id_array : type_id_array, type_name_array : type_name_array},
+            success: function() {
+                success_alert('儲存成功');
+                setTimeout(function() {
+                    location.href = '/type_list';
+                }, 1500);
+            },
+            error: function(msg){
+                errorMessage(msg);
+            }
+        });
+    } else {
+        Swal.fire({
+            title : '欄位不可為空',
+            icon : 'error',
+            timer : 1500
+        });
+    }
+});
+
 //產品分類-刪除
 $('button[name="typeDelete"]').each(function() {
     $(this).click(function(e) {
@@ -194,7 +238,18 @@ $('#productForm').on('submit', function(e) {
     let formData = new FormData($(this)[0]);
     let url = $(this).attr('action');
     let msg = "新增成功";
-    if (url.indexOf("update") != -1) msg = "修改完成"
+    if (url.indexOf("update") != -1) msg = "修改完成";
+
+    let on_sale = $('input[name="on_sale"]').prop('checked');
+    let discount_price = $('input[name="discount_price"]').val();
+    if (on_sale && discount_price == '') {
+        Swal.fire({
+            title : '特價開關開啟時，特價欄位不可為空',
+            icon : 'error',
+            timer : 1500
+        });
+        return false;
+    }
 
     $.ajax({
         url: url,
@@ -294,8 +349,9 @@ $('button[name="productDelete"]').each(function() {
         ajaxSetup();
 
         let id = $(this).parent().parent().find('input[name="product_id"]').val();
+        let title = $(this).parent().parent().find('input[name="product_title"]').val();
         let url = '/product_delete/'+id;
-        warning_alert("確定要刪除此項產品?", url, id, "/product_list");
+        warning_alert('確定要刪除"'+title+'"產品?', url, id, "/product_list");
     });
 });
 
@@ -314,11 +370,13 @@ function readURL(input){
     }
 }
 
+//首頁資訊編輯
 $('#btnEdit').click(function() {
     $('#infoList').hide();
     $('#infoEdit').show();
 });
 
+//首頁資訊更新
 $('#btnUpdate').click(function() {
     ajaxSetup();
 
@@ -351,6 +409,7 @@ $('#btnUpdate').click(function() {
     });
 });
 
+//產品搜尋
 $('#product_search').click(function(e) {
     e.preventDefault();
     ajaxSetup();
@@ -374,6 +433,7 @@ $('#product_search').click(function(e) {
     });
 });
 
+//聯絡我們
 $('#contactForm').on('submit', function(e) {
     e.preventDefault();
     ajaxSetup();
@@ -391,7 +451,7 @@ $('#contactForm').on('submit', function(e) {
             success_alert('信件寄出成功!!');
             setTimeout(function() {
                 location.href = '/contact';
-            }, 1500);
+            }, 10000);
         },
         error: function(msg){
             errorMessage(msg);
