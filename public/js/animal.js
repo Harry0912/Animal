@@ -35,6 +35,7 @@ function warning_alert(msg, url, id, returnUrl) {
     })
 }
 
+//錯誤訊息彈跳視窗
 function errorMessage(msg)
 {
     let errMsg = JSON.parse(msg.responseText)['errors'];
@@ -50,34 +51,31 @@ function errorMessage(msg)
 }
 
 //csrf
-function ajaxSetup() {
+// function ajaxSetup() {
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
-        }
+        },
+        contentType: false,
+        processData: false
     });
-}
+// }
 
-//最新消息-新增
-$('#newsAdd').click(function(e) {
+// 最新消息新增、編輯
+$('#newsForm').on('submit', function(e) {
     e.preventDefault();
-    ajaxSetup();
 
-    let url = '/news_add/store';
-    let title = $('#news_title').val();
-    let time = $('#news_time').val();
-    let content = $('#news_content').val();
+    let formData = new FormData($(this)[0]);
+    let url = $(this).attr('action');
+    let msg = "新增成功";
+    if (url.indexOf("update") != -1) msg = "修改完成";
 
     $.ajax({
         url: url,
         method: 'post',
-        data: {
-            news_title : title, 
-            news_time : time,
-            news_content : content
-        },
+        data: formData,
         success: function() {
-            success_alert("新增成功");
+            success_alert(msg);
             setTimeout(function() {
                 location.href = "/news_list"
             }, 1500);
@@ -88,50 +86,19 @@ $('#newsAdd').click(function(e) {
     });
 });
 
-//最新消息-修改
-$('#newsEdit').click(function(e) {
-    e.preventDefault();
-    ajaxSetup();
-    
-    let id = $('#news_id').val();
-    let title = $('#news_title').val();
-    let time= $('#news_time').val();
-    let content = $('#news_content').val();
-    let url = '/news_update/'+id;
-
-    $.ajax({
-        url: url,
-        method: 'patch',
-        data: {
-            news_title : title,
-            news_time : time,
-            news_content : content
-        },
-        success: function() {
-            success_alert("修改完成");
-            setTimeout(function() {
-                location.href = '/news_list';
-            }, 1500)
-        }
-    });
-});
-
 //最新消息-刪除
 $('button[name="newsDelete"]').each(function() {
     $(this).click(function() {
-        ajaxSetup();
-
         let id = $(this).parent().parent().find('input[name="news_id"]').val();
         let title = $(this).parent().parent().find('input[name="news_title"]').val();
         let url = '/news_delete/'+id;
-
         warning_alert('確定要刪除"'+title+'"消息?', url, id, "/news_list");
     });
 });
 
+//消息搜尋
 $('#news_search').click(function(e) {
     e.preventDefault();
-    ajaxSetup();
 
     let keyword = $('#news_keyword').val().trim();
     let url = '/news_list';
@@ -153,51 +120,65 @@ $('#news_search').click(function(e) {
 });
 
 //產品分類-新增
-$('#typeAdd').click(function(e) {
+$('#typeAddForm').on('submit', function(e) {
     e.preventDefault();
-    ajaxSetup();
 
-    let url = '/type_add/store';
-    let type_name = $('#type_name').val();
-
-    $.ajax({
-        url: url,
-        method: 'post',
-        data: {'type_name':type_name},
-        success: function() {
-            success_alert("新增成功");
-            setTimeout(function() {
-                location.href = '/type_list';
-            }, 1500);
-        }
-    });
-});
-
-$('#typeEdit').click(function(e) {
-    e.preventDefault();
-    ajaxSetup();
-
-    let type_id_array = [];
-    $('input[name="type_id"]').each(function() {
-        type_id_array.push($(this).val());
-    });
+    let formData = new FormData($(this)[0]);
+    let url = $(this).attr('action');
+    let type_name = $('input[name="type_name"]').val().trim();
 
     let isError = false;
-    let type_name_array = [];
-    $('input[name="type_name"]').each(function() {
-        let type_name = $(this).val().trim();
-        if (type_name == '') {
+    $('input[name="type_name[]"]').each(function() {
+        if ($(this).val() == type_name) {
             isError = true;
             return false;
         }
-        type_name_array.push(type_name);
     });
 
     if (!isError) {
         $.ajax({
-            url: '/type_update',
+            url: url,
             method: 'post',
-            data: {type_id_array : type_id_array, type_name_array : type_name_array},
+            data: formData,
+            success: function() {
+                success_alert("新增成功");
+                setTimeout(function() {
+                    location.href = '/type_list';
+                }, 1500)
+            },
+            error: function(msg) {
+                errorMessage(msg);
+            }
+        });
+    } else {
+        Swal.fire({
+            title : '欄位名稱已存在',
+            icon : 'error',
+            timer : 1500
+        });
+    }
+});
+
+//分類編輯
+$('#typeEditForm').on('submit', function(e) {
+    e.preventDefault();
+
+    let formData = new FormData($(this)[0]);
+    let url = '/type_update';
+
+    let isError = false;
+    $('input[name="type_name[]"]').each(function() {
+        if ($(this).val().trim() == '') {
+             isError = true;
+             return false;
+        }
+    });
+
+    if (!isError) {
+        $.ajax({
+            url: url,
+            method: 'post',
+            data: formData,
             success: function() {
                 success_alert('儲存成功');
                 setTimeout(function() {
@@ -215,16 +196,16 @@ $('#typeEdit').click(function(e) {
             timer : 1500
         });
     }
+    
 });
 
 //產品分類-刪除
 $('button[name="typeDelete"]').each(function() {
     $(this).click(function(e) {
         e.preventDefault();
-        ajaxSetup();
 
-        let id = $(this).parent().parent().find('input[name="type_id"]').val();
-        let name = $(this).parent().parent().find('input[name="type_name"]').val();
+        let id = $(this).parent().parent().find('input[name="type_id[]"]').val();
+        let name = $(this).parent().parent().find('input[name="type_name[]"]').val();
         let url = '/type_delete/'+id;
 
         warning_alert('確定要刪除"'+name+'"類別?', url, id, "/type_list");
@@ -255,8 +236,6 @@ $('#productForm').on('submit', function(e) {
         url: url,
         method: 'post',
         data: formData,
-        contentType: false,
-        processData: false,
         success: function() {
             success_alert(msg);
             setTimeout(function() {
@@ -346,7 +325,6 @@ $('#productForm').on('submit', function(e) {
 $('button[name="productDelete"]').each(function() {
     $(this).click(function(e) {
         e.preventDefault();
-        ajaxSetup();
 
         let id = $(this).parent().parent().find('input[name="product_id"]').val();
         let title = $(this).parent().parent().find('input[name="product_title"]').val();
@@ -378,8 +356,6 @@ $('#btnEdit').click(function() {
 
 //首頁資訊更新
 $('#btnUpdate').click(function() {
-    ajaxSetup();
-
     let title = $('#title').val();
     let tel = $('#tel').val();
     let fax = $('#fax').val();
@@ -412,7 +388,6 @@ $('#btnUpdate').click(function() {
 //產品搜尋
 $('#product_search').click(function(e) {
     e.preventDefault();
-    ajaxSetup();
 
     let keyword = $('#product_keyword').val().trim();
     let url = '/product_list';
@@ -436,7 +411,6 @@ $('#product_search').click(function(e) {
 //聯絡我們
 $('#contactForm').on('submit', function(e) {
     e.preventDefault();
-    ajaxSetup();
 
     let formData = new FormData($(this)[0]);
     let url = $(this).attr('action');
@@ -451,10 +425,19 @@ $('#contactForm').on('submit', function(e) {
             success_alert('信件寄出成功!!');
             setTimeout(function() {
                 location.href = '/contact';
-            }, 10000);
+            }, 1500);
         },
         error: function(msg){
             errorMessage(msg);
         }
     })
 });
+
+// $('#captcha_img').click(function() {
+//     let url = '/captcha/default?';
+//     $(this).attr('src', url + Math.random());
+// });
+
+$('#accordionFlushExample').sortable();
+
+$('.list-group').sortable();

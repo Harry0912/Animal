@@ -16,7 +16,7 @@ class NewsController extends Controller
     public function index()
     {
         // $news = $this->NewsModel->get();
-        $news = $this->NewsModel->paginate(4);
+        $news = $this->NewsModel->paginate(10);
         
         $breadcrumb[] = [
             'name' => '最新消息',
@@ -42,7 +42,6 @@ class NewsController extends Controller
         
         return view('news/news_add', [
             'action' => '/news_add/store',
-            'buttonId' => 'newsAdd',
             'buttonName' => '新增',
             'breadcrumb' => $breadcrumb
         ]);
@@ -77,7 +76,7 @@ class NewsController extends Controller
         ];
 
         return view('news/news_add', [
-            'buttonId' => 'newsEdit',
+            'action' => '/news_update/'.$id,
             'buttonName' => '儲存',
             'news_id' => $id,
             'news_title' => $title,
@@ -104,7 +103,7 @@ class NewsController extends Controller
 
     public function search($keyword)
     {
-        $news = $this->NewsModel->where('news_title', 'like', '%'.$keyword.'%')->paginate(4);
+        $news = $this->NewsModel->where('news_title', 'like', '%'.$keyword.'%')->paginate(10);
 
         return view('news/news_list', [
             'news' => $news

@@ -37,7 +37,7 @@ Route::get('/news_list', [NewsController::class, 'index']);
 Route::get('/news_add', [NewsController::class, 'create']);
 Route::post('/news_add/store', [NewsController::class, 'store']);
 Route::get('/news_edit/{id}', [NewsController::class, 'edit']);
-Route::patch('/news_update/{id}', [NewsController::class, 'update']);
+Route::post('/news_update/{id}', [NewsController::class, 'update']);
 Route::delete('/news_delete/{id}', [NewsController::class, 'destroy']);
 Route::post('/news_search/{keyword}', [NewsController::class, 'search']);
 //產品

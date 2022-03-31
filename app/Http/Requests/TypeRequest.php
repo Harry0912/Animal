@@ -27,4 +27,11 @@ class TypeRequest extends FormRequest
             'type_name' => 'required'
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'type_name.required' => '分類欄位必填'
+        ];
+    }
 }

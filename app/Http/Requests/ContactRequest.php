@@ -27,7 +27,8 @@ class ContactRequest extends FormRequest
             'name' => 'required',
             'tel' => 'required',
             'email' => 'required|email',
-            'notes' => 'required'
+            'notes' => 'required',
+            // 'captcha' => 'required|captcha'
         ];
     }
 

@@ -16,23 +16,26 @@
                 <div class="col-md-6">
                     <label for="name" class="form-label">填表人</label>
                     <input type="text" class="form-control" name="name">
-                    @error('name') <span class="text-danger">{{ $message }}</span> @enderror
                 </div>
                 <div class="col-md-6">
                     <label for="tel" class="form-label">電話</label>
                     <input type="text" class="form-control" name="tel">
-                    @error('tel') <span class="text-danger">{{ $message }}</span> @enderror
                 </div>
                 <div class="col-12">
                     <label for="email" class="form-label">E-mail</label>
                     <input type="email" class="form-control" name="email">
-                    @error('email') <span class="text-danger">{{ $message }}</span> @enderror
                 </div>
                 <div class="col-12">
                     <label for="note" class="form-label">留言內容</label>
                     <textarea class="form-control" name="notes" rows="7" cols="30"></textarea>
-                    @error('notes') <span class="text-danger">{{ $message }}</span> @enderror
                 </div>
+                <!-- <div class="col-12">
+                    <div class="row">
+                        <div class="col-1"><label>驗證碼</label></div>
+                        <div class="col-2"><input type="text" class="form-control" name="captcha" maxlength="4"></div>
+                        <div class="col-1"><img id="captcha_img" src="{{ captcha_src() }}"></div>
+                    </div>
+                </div> -->
                 <div class="col-12">
                     <button type="submit" class="btn btn-primary">送出</button>
                 </div>

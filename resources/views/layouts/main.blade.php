@@ -98,6 +98,7 @@
         @yield('type')
         @yield('contact')
         <script type="text/javascript" src="{{ asset('js/jquery-3.6.0.min.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('js/jquery-ui.min.js') }}"></script>
         <script type="text/javascript" src="{{ asset('js/bootstrap.js') }}"></script>
         <script type="text/javascript" src="{{ asset('js/sweetalert2.min.js') }}"></script>
         <script type="text/javascript" src="{{ asset('js/animal.js') }}"></script>
